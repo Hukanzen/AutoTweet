@@ -12,13 +12,13 @@
 	$data=$to->get('statuses/home_timeline',array('count' => 100,'trim_user'=>false,'exclude_replies'=>false,'contributor_details'=>false,'include_entities'=>false));
 
 
-	$link=db_connect();
+	$link=db_connect('mecab');
 	
 	foreach($data as $key => $value){
 		$text=$value->text;
 //		var_dump($value);
 		if(!preg_match("/@/",$text)){
-			$text=mb_ereg_replace("\\\\","￥￥￥￥",$text);
+			$text=mb_ereg_replace("\\\\","￥",$text);
 			$text=mysqli_real_escape_string($link,$text);
 			$sql="INSERT INTO mecab.Tweet(Data) VALUES(\"".$text."\")";
 			echo $sql."\n";

@@ -6,7 +6,7 @@
 
 	require dirname(__FILE__).'/../mysqli_connection.php'   ;
 	
-	$ln=db_connect();
+	$ln=db_connect('mecab');
 	$pattern=array();
 	
 	$sql=array("SELECT * FROM mecab.Junban WHERE j0 = -1");
@@ -42,7 +42,7 @@
 //	var_dump($pattern);
 	make_tweet:
 	$tweet_data="#自作自動ツイート生成bot\n";
-	for($i=0;$i<rand(1,5);$i++){
+//	for($i=0;$i<rand(1,5);$i++){
 		foreach($pattern as $key => $value){
 			if($value == -1)	continue;
 			elseif($key == 0)     continue;
@@ -55,7 +55,7 @@
 			//if(preg_match(
 		}
 		$tweet_data.="。 ";
-	}
+//	}
 	
 	if(mb_strlen($tweet_data) >140){
 		goto make_tweet;
@@ -63,6 +63,6 @@
 	
 	db_close($ln);
 
-	echo $tweet_data;
+//	echo $tweet_data;
 	try_catch($cK,$cS,$aT,$aTS,$tweet_data);
 ?>

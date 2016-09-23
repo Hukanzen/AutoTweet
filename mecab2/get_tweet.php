@@ -4,7 +4,7 @@
 	require dirname(__FILE__).'/../main/try_catch.php';
 	require dirname(__FILE__).'/func.php'   ;
 
-	require dirname(__FILE__).'/mysqli_connection.php'   ;
+	require dirname(__FILE__).'/../mysqli_connection.php'   ;
 
 	$to=new TwistOAuth($cK,$cS,$aT,$aTS);
 	$mecab=new MeCab_Tagger();
@@ -13,7 +13,7 @@
 	$data=$to->get('statuses/user_timeline',array('screen_name'=>'@HHHalice','count' => 1,'trim_user'=>false,'exclude_replies'=>false,'contributor_details'=>false,'include_entities'=>false));
 
 
-	$link=db_connect();
+	$link=db_connect('mecab2');
 	
 	foreach($data as $key => $value){
 		$text=$value->text;

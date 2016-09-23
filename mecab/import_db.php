@@ -23,7 +23,7 @@
 		if(!preg_match("/@/",$text)){
 			#echo $key." ";
 
-			$text=mb_ereg_replace("\\\\","￥￥￥￥",$text);
+			$text=mb_ereg_replace("\\\\","￥",$text);
 			$text=mysqli_real_escape_string($link,$text);
 			$sql="INSERT INTO mecab.Tweet(Data) VALUES(\"".$text."\")";
 			db_query($sql,$link);
