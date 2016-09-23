@@ -4,7 +4,7 @@
 	require dirname(__FILE__).'/../main/try_catch.php';
 	require dirname(__FILE__).'//func.php'   ;
 
-	require dirname(__FILE__).'/mysqli_connection.php'   ;
+	require dirname(__FILE__).'/../mysqli_connection.php'   ;
 	
 	$ln=db_connect('mecab2');
 
