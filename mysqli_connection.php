@@ -2,17 +2,17 @@
 
 	//mysqli 関連の自作関数
 
-	function db_connect(){
-		$linkid=mysqli_connect('localhost','twitter','twitter','mecab');
+	function db_connect($db_name){
+		$linkid=mysqli_connect('localhost','twitter','twitter',$db_name);
 		if(!$linkid) die("Failure mysqli_connect".mysqli_error($linkid));
 		mysqli_set_charset($linkid,"utf8");
 		return $linkid;
 	}
 
-	function db_select($linkid){
-		$db_rslt=mysqli_select_db('mecab',$linkid);
-		if(!$db_rslt) die("Failure select db".mysqli_error($linkid));
-	}
+//	function db_select($linkid){
+//		$db_rslt=mysqli_select_db('mecab',$linkid);
+//		if(!$db_rslt) die("Failure select db".mysqli_error($linkid));
+//	}
 
 	function db_query($SQL,$linkid){
 		$rslt=mysqli_query($linkid,$SQL);
