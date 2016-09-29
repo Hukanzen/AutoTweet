@@ -1,17 +1,40 @@
 <?php
 	require dirname(__FILE__).'/../TwistOAuth.phar'   ;
+	require dirname(__FILE__).'/TwistOAuth.php'   ;
 	require dirname(__FILE__).'/../main/user.php'     ;
 	require dirname(__FILE__).'/../main/try_catch.php';
 	require dirname(__FILE__).'/../myfunc/func.php'   ;
 
 	require dirname(__FILE__).'/../mysqli_connection.php'   ;
 
+	set_time_limit(0);
+
 	$to=new TwistOAuth($cK,$cS,$aT,$aTS);
+//	$to=new TwistCredential($cK,$cS,$aT,$aTS);
+	
 	$mecab=new MeCab_Tagger();
 
-	$data=$to->get('statuses/home_timeline',array('count' => 100,'trim_user'=>false,'exclude_replies'=>false,'contributor_details'=>false,'include_entities'=>false));
-
-
+	$data=$to->get('',$to);
+//	foreach(new TwistLterator($data) as $req){
+//		echo $req->response->text;
+//	}
+//	$data=$to->streaming(
+	//	'statuses/sample',
+	//	function($status)use($to){
+	//		$text=$status->text;
+	//		if(preg_match("/@/",$text) || preg_match("/?/",$text)){
+	//			;
+	//		}else{
+	//			echo $text;
+	//		}
+	//		//echo $i;
+	//		//exit;
+	//	}
+//		'statuses/sample',
+//		function($status) use($to){
+//			if(isset($status->text)){
+//				try{
+//	//				echo $status->text;
 	$link=db_connect('mecab');
 	
 	foreach($data as $key => $value){
@@ -53,6 +76,10 @@
 			continue;
 		}
 	}
+
+//	var_dump($data);
+//	exit;
+
 
 	db_close($link);	
 //	var_dump($data);

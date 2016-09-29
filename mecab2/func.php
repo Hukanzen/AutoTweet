@@ -184,7 +184,7 @@
 //	system("perl top_cut.pl");
 //}
 
-function table_check_create($link,$table){
+function table_check_create2($link,$table){
 	$sql="SHOW TABLES FROM mecab2;";
 	$aRST=db_fetch($sql,$link);
 	//var_dump($aRST);

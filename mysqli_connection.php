@@ -20,6 +20,12 @@
 		return $rslt;
 	}
 
+	function db_num_rows($SQL,$linkid){
+		$rslt=db_query($SQL,$linkid);
+		$num=mysqli_num_rows($rslt);
+		return $num;
+	}
+
 	function db_fetch($SQL,$linkid){
 		$data=array();
 		$rslt=db_query($SQL,$linkid);

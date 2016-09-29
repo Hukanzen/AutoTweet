@@ -198,5 +198,22 @@ function table_check_create($link,$table){
 	db_query($sql,$link);
 	return 1;
 }
+
+function is_alpha($str){
+    if (preg_match("/[a-zA-Z0-9]+/",$str)) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+function only_kana_kanji($str){
+	if(preg_match("/^[ぁ-んァ-ヶー一-龠a-zA-Z、]+$/u",$str)){
+		/* ひらがな・カタカナ漢字のみ */
+		return 1;
+	}else{
+		return 0;
+	}
+}
 ?>
 
