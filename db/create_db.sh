@@ -14,11 +14,11 @@ echo $SQL_1 | $CMD_MYSQL
 
 
 
-for i in `seq 0 68`
-do
-	SQL[$i]="CREATE TABLE ${SQLDB}.POSpeech_${i}_db (ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,Data TEXT) ;"
-	echo ${SQL[$i]} | $CMD_MYSQL
-done
+#for i in `seq 0 68`
+#do
+#	SQL[$i]="CREATE TABLE ${SQLDB}.POSpeech_${i}_db (ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,Data TEXT) ;"
+#	echo ${SQL[$i]} | $CMD_MYSQL
+#done
 
 SQL_3="create table ${SQLDB}.Junban(ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,j0 INT,j1 INT, j2 INT) ;"
 

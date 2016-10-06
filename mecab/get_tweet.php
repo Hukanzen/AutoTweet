@@ -14,7 +14,8 @@
 	
 	$mecab=new MeCab_Tagger();
 
-	$data=$to->get('',$to);
+	$data=$to->get('statuses/home_timeline',array('count' => 100,'trim_user'=>false,'exclude_replies'=>false,'contributor_details'=>false,'include_entities'=>false));
+	//$data=$to->get('',$to);
 //	foreach(new TwistLterator($data) as $req){
 //		echo $req->response->text;
 //	}
@@ -44,34 +45,59 @@
 			$text=mb_ereg_replace("\\\\","￥",$text);
 			$text=mysqli_real_escape_string($link,$text);
 			$sql="INSERT INTO mecab.Tweet(Data) VALUES(\"".$text."\")";
-			echo $sql."\n";
+			#echo $sql."\n";
 			db_query($sql,$link);
 
 			$nodes=$mecab->parseToNode($text);
 			
 			$i=0;
+			$flag=0;
 			$junban=array(-1,-1,-1);
 			foreach($nodes as $n){
 				table_check_create($link,$n->getId());
-			//	if(($n->getId())<=68){
-					$word=$n->getSurface();
-					$word=mb_ereg_replace("\\\\","￥",$word);
-					$word=mysqli_real_escape_string($link,$word);
-					$sql="INSERT INTO mecab.POSpeech_".$n->getId()."_db(Data) VALUES(\"".$word."\");";
+
+				$word=$n->getSurface();
+				$word=mb_ereg_replace("\\\\","￥",$word);
+				if($word=="") $word=" ";
+				$word=mysqli_real_escape_string($link,$word);
+				$sql="INSERT INTO mecab.POSpeech_".$n->getId()."_db(Data) VALUES(\"".$word."\");";
+				#echo $sql."\n";
+				//$junban[$i%3]=$n->getId();
+				db_query($sql,$link);
+				if($i==2 && $flag==0){
+					$sql="INSERT INTO mecab.Junban(j0,j1,j2) VALUES("."-1".",".$junban[0].",".$junban[1].");";
+					$junban=array(-1,-1,-1);
+					$i=0;
+					$flag=1;
 					db_query($sql,$link);
-					$junban[$i%3]=$n->getId();
-					if($i==2){
-						$sql="INSERT INTO mecab.Junban(j0,j1,j2) VALUES("."-1".",".$junban[1].",".$junban[2].");";
-						db_query($sql,$link);
-						$junban=array(-1,-1,-1);
-					}elseif($i!=0 && !($i%3)){
-						$sql="INSERT INTO mecab.Junban(j0,j1,j2) VALUES(".$junban[0].",".$junban[1].",".$junban[2].");";
-						db_query($sql,$link);
-						$junban=array(-1,-1,-1);
-					}
-					$i++;
-			//	}
+				}elseif(!($i%3) && $flag==1 ){
+					$sql="INSERT INTO mecab.Junban(j0,j1,j2) VALUES(".$junban[0].",".$junban[1].",".$junban[2].");";
+					$junban=array(-1,-1,-1);
+					db_query($sql,$link);
+				///	$junban[$i%3]=$n->getId();
+				}else{
+				}
+				$junban[$i%3]=$n->getId();
+				//if($i==2 && $flag!=1){
+				//	$sql="INSERT INTO mecab.Junban(j0,j1,j2) VALUES("."-1".",".$junban[0].",".$junban[1].");";
+				//	#db_query($sql,$link);
+				//	$junban=array(-1,-1,-1);
+				//	$i=0;
+				//	$flag=1;
+				//	$junban[0]=$junban[2];
+				//}elseif(!($i%3)){
+				//	$sql="INSERT INTO mecab.Junban(j0,j1,j2) VALUES(".$junban[0].",".$junban[1].",".$junban[2].");";
+				//	#db_query($sql,$link);
+				//	$junban=array(-1,-1,-1);
+				//}
+				#echo $sql."\n";
+				$i++;
 			}
+			if($junban[0]!=-1){
+				$sql="INSERT INTO mecab.Junban(j0,j1,j2) VALUES(".$junban[0].",".$junban[1].",".$junban[2].");";
+				db_query($sql,$link);
+			}
+				#echo $sql."\n";
 		}else{
 			continue;
 		}

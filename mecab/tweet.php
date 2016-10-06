@@ -12,8 +12,12 @@
 	$pattern=array();
 	
 	$sql=array("SELECT * FROM mecab.Junban WHERE j0 = -1");
+	if(!db_num_rows($sql[0],$ln)){
+		echo "num make_tweet 1st\n";
+		goto make_tweet;
+	}
 	$aRES=db_a_fetch_assoc($sql,$ln);
-	$count=count($aRES[0]);
+	$count=count($aRES[0])-1;
 	$seed=rand(0,$count);
 	
 //	echo "id=".$aRES[0][$seed]['ID']."\n";
@@ -35,10 +39,14 @@
 		}
 		$aRES=db_a_fetch_assoc($sql,$ln);
 		//elseif(!mysql_num_rows
-		$count=count($aRES[0]);
+		$count=count($aRES[0])-1;
 		$seed=rand(0,$count);
+		#var_dump($aRES);
 
-		echo "ID:".$aRES[0][$seed]['ID']."\tj0:".$aRES[0][$seed]['j0']."\tj1:".$aRES[0][$seed]['j1']."\tj2:".$aRES[0][$seed]['j2']."\n";
+		echo "ID:".$aRES[0][$seed]['ID']."\t";
+		echo "j0:".$aRES[0][$seed]['j0']."\t";
+		echo "j1:".$aRES[0][$seed]['j1']."\t";
+		echo "j2:".$aRES[0][$seed]['j2']."\n";
 
 		if(!isset($aRES[0][$seed]['j2'])){
 			echo "isset RELOAD\n";
@@ -61,7 +69,7 @@
 //	var_dump($pattern);
 	echo "\n";
 	$tweet_data="#自作自動ツイート生成bot\n";
-//	for($i=0;$i<rand(1,5);$i++){
+	for($i=0;$i<rand(1,5);$i++){
 		foreach($pattern as $key => $value){
 			if($value == -1)	continue;
 			elseif($key == 0)     continue;
@@ -84,8 +92,9 @@
 			$tweet_data.=$text;
 			//if(preg_match(
 		}
-		$tweet_data.="。 ";
-//	}
+//		$tweet_data.="。 ";
+		$tweet_data.="、";
+	}
 	
 	if(mb_strlen($tweet_data) >140){
 		goto make_tweet;
@@ -93,6 +102,7 @@
 	
 	db_close($ln);
 
+	$tweet_data.="。 ";
 	echo $tweet_data;
 	try_catch($cK,$cS,$aT,$aTS,$tweet_data);
 ?>

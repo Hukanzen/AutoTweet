@@ -208,7 +208,7 @@ function is_alpha($str){
 }
 
 function only_kana_kanji($str){
-	if(preg_match("/^[ぁ-んァ-ヶー一-龠a-zA-Z、]+$/u",$str)){
+	if(preg_match("/^[ぁ-んァ-ヶー一-龠、 ]+$/u",$str)){
 		/* ひらがな・カタカナ漢字のみ */
 		return 1;
 	}else{
